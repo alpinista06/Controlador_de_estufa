@@ -17,7 +17,7 @@ int main (void) {
   //adc_debugger_teste_configura();
 
    debbuger_init_PWM();
-  
+
   while (1) {
     //valor_lido = adc_debugger_teste_leitura();
     valor_lido = adc_read();
@@ -40,4 +40,3 @@ int main (void) {
 #endif
   }
 }
-
