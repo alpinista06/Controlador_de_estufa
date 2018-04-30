@@ -23,6 +23,7 @@
 #define CMD_HANDSHAKE       'H'
 #define CMD_REGAR           'R'
 #define CMD_VENTILAR        'V'
+#define CMD_PARAR           'P'
 #define UART_PACKET_UMID    'U'
 #define UART_PACKET_TEMP    'T'
 char cmd_from_app;
@@ -88,36 +89,39 @@ void setup(){
 void loop(){
   switch (estado_atual) {
     case ESTADO_HANDSHAKE:
-    if(Serial.available()){
-      cmd_from_app = Serial.read();
-      if(cmd_from_app == CMD_HANDSHAKE){ //Se recebeu um pedido de handshake
-        //Responde o pedido
-        Serial.write(UART_PACKET_START);
-        Serial.write(CMD_HANDSHAKE);
-        Serial.write(UART_PACKET_START);
-        //Inicia o timer
-        Timer1.attachInterrupt(timer_interrupt_callback, TIMER_INTERVAL_US);
-        //E muda de estado para o aguardando comando
-        estado_atual = ESTADO_AGUARDANDO_COMANDO;
+      if(Serial.available()){
+        cmd_from_app = Serial.read();
+        if(cmd_from_app == CMD_HANDSHAKE){ //Se recebeu um pedido de handshake
+          //Responde o pedido
+          Serial.write(UART_PACKET_START);
+          Serial.write(CMD_HANDSHAKE);
+          Serial.write(UART_PACKET_START);
+          //Inicia o timer
+          Timer1.attachInterrupt(timer_interrupt_callback, TIMER_INTERVAL_US);
+          //E muda de estado para o aguardando comando
+          estado_atual = ESTADO_AGUARDANDO_COMANDO;
+        }
       }
-    }
-    break;
+      break;
     case ESTADO_AGUARDANDO_COMANDO:
-    if(Serial.available()){
-      cmd_from_app = Serial.read();
-      switch (cmd_from_app) { //Compara o comando recebido com as opções
-        case CMD_REGAR: //Caso seja um 'R' começa a regar.
-        analogWrite(PINO_VALVULA, PROTOCOLO_VALOR_PWM_VALVULA_ON);
-        tempo_regando = 0;
-        estou_regando = true;
-        break;
-        case CMD_VENTILAR: //Caso seja um 'V' começa a ventilar.
-        digitalWrite(PINO_COOLER, HIGH);
-        tempo_ventilando = 0;
-        estou_ventilando = true;
-        break;
-        case CMD_HANDSHAKE: //Caso seja um 'H' desativa tudo e volta ao estado anterior
-        //Desativa o regador
+      if(Serial.available()){
+        cmd_from_app = Serial.read();
+        switch (cmd_from_app) { //Compara o comando recebido com as opções
+          case CMD_REGAR: //Caso seja um 'R' começa a regar.
+            analogWrite(PINO_VALVULA, PROTOCOLO_VALOR_PWM_VALVULA_ON);
+            tempo_regando = 0;
+            estou_regando = true;
+            break;
+          case CMD_VENTILAR: //Caso seja um 'V' começa a ventilar.
+            digitalWrite(PINO_COOLER, HIGH);
+            tempo_ventilando = 0;
+            estou_ventilando = true;
+            break;
+          case CMD_PARAR:
+          estado_atual = ESTADO_PARANDO_ATUADORES;
+          break;
+          case CMD_HANDSHAKE: //Caso seja um 'H' desativa tudo e volta ao estado anterior
+          //Desativa o regador
         estou_regando = false;
         digitalWrite(PINO_VALVULA, LOW);
         //Desativa o cooler
@@ -127,15 +131,22 @@ void loop(){
         Timer1.stop();
         //Volta ao estado anterior
         estado_atual = ESTADO_HANDSHAKE;
+        break;
+        case
         default:
         break;
       }
-    }
+      break;
+    case LIGANDO_COOLER:
+    break;
+    case LIGANDO_VALVULA:
+    break;
+    case ESTADO_PARANDO_ATUADORES:
+    break;
+    default:
+    //Caso não haja nenhum dos estados reconhecidos selecionados, não faz nada
+    break;
   }
-  break;
-  default:
-  //Caso não haja nenhum dos estados reconhecidos selecionados, não faz nada
-  break;
 }
 
 void timer_interrupt_callback(){
