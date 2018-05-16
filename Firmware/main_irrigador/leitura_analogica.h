@@ -46,14 +46,14 @@ typedef enum {
    @param u8_referencia_adc [Configura a tensão de referencia para a conversão, default referencia interna]
    @param u8_prescaler_adc [Configura o prescaler da conversão, default 128]
 */
-void adc_init(uint8_t i8_pino_adc, ad_ref i8_referencia_adc, ad_prescaler i8_prescaler_adc);
+void adc_init(ad_ref i8_referencia_adc, ad_prescaler i8_prescaler_adc);
 
 /**
    [realizar_leitura analógica]
    @param   [sem parametros de entrada]
    @return          [retorna o resultado da conversão AD]
 */
-uint16_t adc_read();
+uint16_t adc_read(uint8_t i8_pino_adc);
 
 void adc_debugger_teste_configura();
 uint16_t adc_debugger_teste_leitura();
