@@ -52,4 +52,3 @@ void uart_read_string(char *read_string, char terminator = '\n'){
     i++;
   }
 }
-
