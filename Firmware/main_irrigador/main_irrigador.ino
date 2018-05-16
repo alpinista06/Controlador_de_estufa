@@ -42,22 +42,34 @@ float tempo_regando;
 bool estou_regando;
 float tempo_ventilando;
 bool estou_ventilando;
-uint16_t valor_lido;
+uint16_t valor_lido_u;
+uint16_t valor_lido_T;
 
 
 char valor_string[3]; //string que será de fato enviada pela uart, usado no itoa
+char valor_string_T[3];
 
 
-
-ISR(TIMER1_COMPA_vect)
+/*ISR(TIMER1_COMPA_vect)
 {
-  valor_lido = adc_read();
-
-  umidade_lida = (valor_lido / 1023.0) * 100.0;
+  valor_lido_u = adc_read(5);
+  umidade_lida = (valor_lido_u / 1023.0) * 100.0;
   itoa(umidade_lida, valor_string, 10);
   uart_send_byte(UART_PACKET_START);
   uart_send_byte(UART_PACKET_UMID);
   uart_send_bytes(valor_string, 2);
+  uart_send_byte(UART_PACKET_END);
+
+
+}*/
+ISR(TIMER1_COMPB_vect) {
+
+  valor_lido_T = adc_read(1);
+  temperatura_lida = (valor_lido_T / 1023.0) * 100.0;
+  itoa(temperatura_lida, valor_string_T, 10);
+  uart_send_byte(UART_PACKET_START);
+  uart_send_byte(UART_PACKET_TEMP);
+  uart_send_bytes(valor_string_T, 2);
   uart_send_byte(UART_PACKET_END);
 }
 
@@ -70,7 +82,7 @@ void InitializeTimer1(void )
   // TOIE1: Seta no modo de overflow Timer/Counter1, Overflow Interrupt Enable
   TIMSK1 &= ~((1 << ICIE1) | (1 << OCIE1B) | (1 << OCIE1A) | (1 << TOIE1));
   //TIMSK1 |= (1 << TOIE1);
-  TIMSK1 |= (1 << OCIE1A);
+  TIMSK1 |= (1 << OCIE1A) | (1 << OCIE1B);
 
 
   //--- Clear Timer on Compare or CTC mode Configuration ------------------
@@ -92,12 +104,13 @@ void InitializeTimer1(void )
 
 int main (void) {
   uart_init(9600);
-  adc_init(1, AD_REF_5V, AD_PRESCALER_128);
+  adc_init(AD_REF_5V, AD_PRESCALER_128);
 
   InitializeTimer1();
   OCR1A = 15624;  // 1Hz com clk/1024 (From prescaler)
-
+  OCR1B = 15624;
   while (1) {
+
 
     // Restore the global interrupt bit to previous value.
     SREG |= (1 << SREG_GLOBAL_INT_ENABLE);
