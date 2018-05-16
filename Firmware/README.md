@@ -9,7 +9,7 @@ Versão em desenvolvimento, onde as bibliotecas estão sendo desenvolvidas:
 - [x] ADC
 - [x] UART
 - [x] PWM
-- [ ] Timer
+- [x] Timer
 - [ ] Main Irrigador
 
 o código main_irrigador será o código final do projeto, contendo a máquina de estados e as rotinas de acionamento do sistema.
