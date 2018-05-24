@@ -14,7 +14,14 @@
 #define INICIADOR_DO_PACOTE_DE_LEITURA 'L'
 #define TERMINADOR_DO_PACOTE '\n'
 
-#define SREG_GLOBAL_INT_ENABLE 7
+#define SREG_GLOBAL_INT 7
+
+#define ESPERA 1000
+
+////////////
+//Estados //
+////////////
+enum MAQUINA {ler_umidade, ler_temperatura, enviar_dados, enviar_umidade, enviar_temperatura};
 
 
 /////////////////////////////
@@ -43,36 +50,46 @@ bool estou_regando;
 float tempo_ventilando;
 bool estou_ventilando;
 uint16_t valor_lido_u;
-uint16_t valor_lido_T;
+float valor_lido_T;
 
 
-char valor_string[3]; //string que será de fato enviada pela uart, usado no itoa
-char valor_string_T[3];
+char string_umidade[3]; //string que será de fato enviada pela uart, usado no itoa
+char string_temperatura[3];
 
 
-/*ISR(TIMER1_COMPA_vect)
-{
-  valor_lido_u = adc_read(5);
-  umidade_lida = (valor_lido_u / 1023.0) * 100.0;
-  itoa(umidade_lida, valor_string, 10);
-  uart_send_byte(UART_PACKET_START);
-  uart_send_byte(UART_PACKET_UMID);
-  uart_send_bytes(valor_string, 2);
-  uart_send_byte(UART_PACKET_END);
+ISR(TIMER1_COMPA_vect)
+{ /*
+    valor_lido_u = adc_read(5);
+    umidade_lida = (valor_lido_u / 1023.0) * 100.0;
+    itoa(umidade_lida, string_umidade, 10);
+    uart_send_byte(UART_PACKET_START);
+    uart_send_byte(UART_PACKET_UMID);
+    uart_send_bytes(string_umidade, 2);
+    uart_send_byte(UART_PACKET_END);
 
+    //valor_lido_T = adc_read(1);
+    //temperatura_lida = (valor_lido_T / 1023.0) * 100.0;
+    //itoa(temperatura_lida, string_temperatura, 10);
+    uart_send_byte(UART_PACKET_START);
+    uart_send_byte(UART_PACKET_TEMP);
+    uart_send_bytes(string_temperatura, 2);
+    uart_send_byte(UART_PACKET_END);
+  */
 
-}*/
-ISR(TIMER1_COMPB_vect) {
+}
+/*
+
+  ISR(TIMER1_COMPB_vect) {
 
   valor_lido_T = adc_read(1);
   temperatura_lida = (valor_lido_T / 1023.0) * 100.0;
-  itoa(temperatura_lida, valor_string_T, 10);
+  itoa(temperatura_lida, string_temperatura, 10);
   uart_send_byte(UART_PACKET_START);
   uart_send_byte(UART_PACKET_TEMP);
-  uart_send_bytes(valor_string_T, 2);
+  uart_send_bytes(string_temperatura, 2);
   uart_send_byte(UART_PACKET_END);
-}
-
+  }
+*/
 
 void InitializeTimer1(void )
 {
@@ -82,8 +99,7 @@ void InitializeTimer1(void )
   // TOIE1: Seta no modo de overflow Timer/Counter1, Overflow Interrupt Enable
   TIMSK1 &= ~((1 << ICIE1) | (1 << OCIE1B) | (1 << OCIE1A) | (1 << TOIE1));
   //TIMSK1 |= (1 << TOIE1);
-  TIMSK1 |= (1 << OCIE1A) | (1 << OCIE1B);
-
+  TIMSK1 |= (1 << OCIE1A);
 
   //--- Clear Timer on Compare or CTC mode Configuration ------------------
   // Modo CTC ou seja o contador atinge o valor de comparação gera a interrupçao (TCNT1)
@@ -105,15 +121,85 @@ void InitializeTimer1(void )
 int main (void) {
   uart_init(9600);
   adc_init(AD_REF_5V, AD_PRESCALER_128);
-
   InitializeTimer1();
   OCR1A = 15624;  // 1Hz com clk/1024 (From prescaler)
-  OCR1B = 15624;
+  //enum MAQUINA estado = ler_umidade;
+  enum MAQUINA estado = ler_temperatura;
   while (1) {
+
+    switch (estado) {
+
+      case ler_umidade:
+        SREG  &=  ~(1  <<  SREG_GLOBAL_INT);    //Disable  global  interrupts.
+        valor_lido_u = adc_read(3);
+        umidade_lida = (valor_lido_u / 1023.0) * 100;
+        itoa(umidade_lida, string_umidade , 10);
+        SREG  |=  (1  <<  SREG_GLOBAL_INT);    //  Restore  the  global  interrupt  bit.
+        _delay_ms(25);
+        //estado = ler_temperatura;
+        estado = enviar_umidade;
+        break;
+
+      case ler_temperatura:
+        SREG  &=  ~(1  <<  SREG_GLOBAL_INT);    //Disable  global  interrupts.
+        valor_lido_T = adc_read(0); //ATENÇAO Parametro 0 significa porta analogica A2
+        temperatura_lida = (valor_lido_T * 0.48875855);
+        //temperatura_lida = (valor_lido_T / 1023.0) * 100;
+        itoa(temperatura_lida, string_temperatura, 10);
+        SREG  |=  (1  <<  SREG_GLOBAL_INT);    //  Restore  the  global  interrupt  bit.
+        _delay_ms(25);
+        //estado = ler_umidade;
+        //estado = enviar_umidade;
+        estado = enviar_temperatura;
+        //estado = enviar_dados;
+        break;
+      /*case controlar_umidade:
+        função para controlar a irrigaçao
+        case controlar temperatura:
+        ...
+      */
+      case enviar_umidade:
+
+        SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
+        //umidade_lida = (valor_lido_u / 1023.0) * 100.0;
+        //itoa(umidade_lida, string_umidade, 10);
+        uart_send_byte(UART_PACKET_START);
+        uart_send_byte(UART_PACKET_UMID);
+        uart_send_bytes(string_umidade, 2);
+        uart_send_byte(UART_PACKET_END);
+        SREG  |=  (1  <<  SREG_GLOBAL_INT);
+
+        _delay_ms(ESPERA);
+        //estado = enviar_temperatura;
+        estado = ler_temperatura;
+        //estado = ler_umidade;
+        break;
+
+      case enviar_temperatura:
+        SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
+        //temperatura_lida = ((valor_lido_T * 5) / (1023)) / 0.01;
+        //itoa(temperatura_lida, string_temperatura, 10);
+        uart_send_byte(UART_PACKET_START);
+        uart_send_byte(UART_PACKET_TEMP);
+        uart_send_bytes(string_temperatura, 2);
+        uart_send_byte(UART_PACKET_END);
+        SREG  |=  (1  <<  SREG_GLOBAL_INT);
+
+        _delay_ms(ESPERA);
+        //estado = ler_temperatura;
+        estado = ler_umidade;
+        break;
+        /*
+          case enviar_dados:
+          SREG |= (1 << SREG_GLOBAL_INT);
+          estado = ler_temperatura;
+          break;
+        */
+    }
 
 
     // Restore the global interrupt bit to previous value.
-    SREG |= (1 << SREG_GLOBAL_INT_ENABLE);
+    //SREG |= (1 << SREG_GLOBAL_INT_ENABLE);
 
   }
 
