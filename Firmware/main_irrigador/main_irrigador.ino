@@ -6,6 +6,7 @@
 
 #include "leitura_analogica.h"
 #include "comunicacao_uart.h"
+#include "library_PWM.h"
 
 
 //#define ENVIAR_COMO_PACOTE
@@ -21,7 +22,7 @@
 ////////////
 //Estados //
 ////////////
-enum MAQUINA {ler_umidade, ler_temperatura, enviar_dados, enviar_umidade, enviar_temperatura};
+enum MAQUINA {ler_umidade, ler_temperatura, enviar_dados, enviar_umidade, enviar_temperatura, controlar_temperatura};
 
 
 /////////////////////////////
@@ -51,7 +52,7 @@ float tempo_ventilando;
 bool estou_ventilando;
 uint16_t valor_lido_u;
 float valor_lido_T;
-
+uint8_t contador_T;
 
 char string_umidade[3]; //string que será de fato enviada pela uart, usado no itoa
 char string_temperatura[3];
@@ -121,10 +122,12 @@ void InitializeTimer1(void )
 int main (void) {
   uart_init(9600);
   adc_init(AD_REF_5V, AD_PRESCALER_128);
-  InitializeTimer1();
-  OCR1A = 15624;  // 1Hz com clk/1024 (From prescaler)
-  //enum MAQUINA estado = ler_umidade;
-  enum MAQUINA estado = ler_temperatura;
+  //InitializeTimer1();
+  init_PWM(11);
+  //OCR1A = 15624;  // 1Hz com clk/1024 (From prescaler)
+  enum MAQUINA estado = ler_umidade;
+  //enum MAQUINA estado = ler_temperatura;
+  //enum MAQUINA estado = controlar_temperatura;
   while (1) {
 
     switch (estado) {
@@ -152,12 +155,22 @@ int main (void) {
         //estado = enviar_umidade;
         estado = enviar_temperatura;
         //estado = enviar_dados;
+        //estado = controlar_temperatura;
         break;
       /*case controlar_umidade:
         função para controlar a irrigaçao
         case controlar temperatura:
-        ...
-      */
+        ...*/
+        case controlar_temperatura:
+        SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
+        Pulso_PWM(11, (umidade_lida*2));
+        SREG  |=  (1  <<  SREG_GLOBAL_INT);
+        
+        //estado = ler_temperatura;
+        estado = ler_umidade;
+        
+        break;
+      
       case enviar_umidade:
 
         SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
@@ -187,7 +200,8 @@ int main (void) {
 
         _delay_ms(ESPERA);
         //estado = ler_temperatura;
-        estado = ler_umidade;
+        //estado = ler_umidade;
+        estado = controlar_temperatura;
         break;
         /*
           case enviar_dados:
