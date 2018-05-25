@@ -38,6 +38,8 @@ void uart_send_byte(uint8_t byte_to_send);
 void uart_send_bytes(uint8_t *bytes_to_send, uint8_t qnt);
 
 void uart_send_string(const char *string_to_send);
+
+uint8_t uart_in_buffer();
 /*
  * read until \0
  */

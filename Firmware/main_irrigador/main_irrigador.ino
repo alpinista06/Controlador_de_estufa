@@ -22,7 +22,7 @@
 ////////////
 //Estados //
 ////////////
-enum MAQUINA {ler_umidade, ler_temperatura, enviar_dados, receber_dados, enviar_umidade, enviar_temperatura, controlar_temperatura, controlar_umidade};
+enum MAQUINA {ler_umidade, ler_temperatura, enviar_dados, ventilando, irrigando, receber_dados, enviar_umidade, enviar_temperatura, controlar_temperatura, controlar_umidade};
 
 
 /////////////////////////////
@@ -53,6 +53,7 @@ bool estou_ventilando;
 uint16_t valor_lido_u;
 float valor_lido_T;
 uint8_t contador_T;
+char comando;
 
 char string_umidade[3]; //string que será de fato enviada pela uart, usado no itoa
 char string_temperatura[3];
@@ -114,7 +115,16 @@ int main (void) {
   //enum MAQUINA estado = ler_temperatura;
   //enum MAQUINA estado = controlar_temperatura;
   while (1) {
-
+    if (uart_in_buffer()) {
+      comando = uart_read_byte();
+      if (comando == 'V'){
+        estado = ventilando;
+      }else if (comando == 'R'){
+        estado = irrigando;
+      }else if (comando == 'V'){
+        estado = ventilando;
+      }
+    }
     switch (estado) {
 
       case ler_umidade:
@@ -143,7 +153,7 @@ int main (void) {
         //estado = controlar_temperatura;
         break;
 
-        
+
       case controlar_umidade:
         SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
         Pulso_PWM(9, (umidade_lida));
@@ -152,14 +162,28 @@ int main (void) {
         //estado = ler_umidade;
         estado = ler_temperatura;
         break;
+        
+      case ventilando:
+      PORTB |= (1 << PORT4);
+      _delay_ms(2000);
+      PORTB &= ~(1 << PORT4);
+      estado = ler_umidade;
+      break;
 
+      case irrigando:
+      Pulso_PWM(9, 250);
+      _delay_ms(2000);
+      estado = ler_umidade;
+      
+      break;
+      
 
       case controlar_temperatura:
         SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
         if (temperatura_lida > 45)
         {
           PORTB |= (1 << PORT4);
-        }else if (temperatura_lida < 45)
+        } else if (temperatura_lida < 45)
         {
           PORTB &= ~(1 << PORT4);
         }
@@ -210,11 +234,11 @@ int main (void) {
 
         break;
 
-    
 
 
-    // Restore the global interrupt bit to previous value.
-    //SREG |= (1 << SREG_GLOBAL_INT_ENABLE);
+
+        // Restore the global interrupt bit to previous value.
+        //SREG |= (1 << SREG_GLOBAL_INT_ENABLE);
 
 
 
