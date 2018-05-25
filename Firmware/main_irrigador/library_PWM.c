@@ -1,7 +1,7 @@
 #include "library_PWM.h"
 
 
-//Testes automatizados
+//Testes automatizados.
 
 void debbuger_init_PWM() {
   DDRB |= (1 << DDB1); // | 1 << DDB2 | 1 << DDD6);   PB1(arduino D9) como saida
