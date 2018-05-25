@@ -22,7 +22,7 @@
 ////////////
 //Estados //
 ////////////
-enum MAQUINA {ler_umidade, ler_temperatura, enviar_dados, enviar_umidade, enviar_temperatura, controlar_temperatura};
+enum MAQUINA {ler_umidade, ler_temperatura, enviar_dados, receber_dados, enviar_umidade, enviar_temperatura, controlar_temperatura, controlar_umidade};
 
 
 /////////////////////////////
@@ -53,29 +53,14 @@ bool estou_ventilando;
 uint16_t valor_lido_u;
 float valor_lido_T;
 uint8_t contador_T;
+uint8_t pino_cooler = 5;
 
 char string_umidade[3]; //string que será de fato enviada pela uart, usado no itoa
 char string_temperatura[3];
 
 
 ISR(TIMER1_COMPA_vect)
-{ /*
-    valor_lido_u = adc_read(5);
-    umidade_lida = (valor_lido_u / 1023.0) * 100.0;
-    itoa(umidade_lida, string_umidade, 10);
-    uart_send_byte(UART_PACKET_START);
-    uart_send_byte(UART_PACKET_UMID);
-    uart_send_bytes(string_umidade, 2);
-    uart_send_byte(UART_PACKET_END);
-
-    //valor_lido_T = adc_read(1);
-    //temperatura_lida = (valor_lido_T / 1023.0) * 100.0;
-    //itoa(temperatura_lida, string_temperatura, 10);
-    uart_send_byte(UART_PACKET_START);
-    uart_send_byte(UART_PACKET_TEMP);
-    uart_send_bytes(string_temperatura, 2);
-    uart_send_byte(UART_PACKET_END);
-  */
+{
 
 }
 /*
@@ -123,7 +108,8 @@ int main (void) {
   uart_init(9600);
   adc_init(AD_REF_5V, AD_PRESCALER_128);
   //InitializeTimer1();
-  init_PWM(11);
+  init_PWM(9);
+  DDRB |= (1 << DDB4); // pino digital 12
   //OCR1A = 15624;  // 1Hz com clk/1024 (From prescaler)
   enum MAQUINA estado = ler_umidade;
   //enum MAQUINA estado = ler_temperatura;
@@ -157,20 +143,33 @@ int main (void) {
         //estado = enviar_dados;
         //estado = controlar_temperatura;
         break;
-      /*case controlar_umidade:
-        função para controlar a irrigaçao
-        case controlar temperatura:
-        ...*/
-        case controlar_temperatura:
-        SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
-        Pulso_PWM(11, (umidade_lida*2));
-        SREG  |=  (1  <<  SREG_GLOBAL_INT);
+
         
+      case controlar_umidade:
+        SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
+        Pulso_PWM(9, (umidade_lida));
+        //Pulso_PWM(9,100 );
+        SREG  |=  (1  <<  SREG_GLOBAL_INT);
+        //estado = ler_umidade;
+        estado = controlar_temperatura;
+        break;
+
+
+      case controlar_temperatura:
+        SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
+        if (temperatura_lida > 45)
+        {
+          PORTB |= (1 << PORT4);
+        }else {
+          PORTB &= ~(1 << PORT4);
+        }
+        SREG  |=  (1  <<  SREG_GLOBAL_INT);
         //estado = ler_temperatura;
         estado = ler_umidade;
-        
+        //estado = controlar_umidade;
+
         break;
-      
+
       case enviar_umidade:
 
         SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
@@ -201,20 +200,24 @@ int main (void) {
         _delay_ms(ESPERA);
         //estado = ler_temperatura;
         //estado = ler_umidade;
-        estado = controlar_temperatura;
+        //estado = controlar_temperatura;
+        estado = controlar_umidade;
         break;
-        /*
-          case enviar_dados:
-          SREG |= (1 << SREG_GLOBAL_INT);
-          estado = ler_temperatura;
-          break;
-        */
-    }
+
+      case receber_dados:
+        SREG |= (1 << SREG_GLOBAL_INT);
+        estado = ler_umidade;
+
+        break;
+
+    
 
 
     // Restore the global interrupt bit to previous value.
     //SREG |= (1 << SREG_GLOBAL_INT_ENABLE);
 
-  }
 
+
+    }
+  }
 }
