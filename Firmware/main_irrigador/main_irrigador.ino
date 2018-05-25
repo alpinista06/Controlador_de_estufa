@@ -53,7 +53,6 @@ bool estou_ventilando;
 uint16_t valor_lido_u;
 float valor_lido_T;
 uint8_t contador_T;
-uint8_t pino_cooler = 5;
 
 char string_umidade[3]; //string que será de fato enviada pela uart, usado no itoa
 char string_temperatura[3];
@@ -151,7 +150,7 @@ int main (void) {
         //Pulso_PWM(9,100 );
         SREG  |=  (1  <<  SREG_GLOBAL_INT);
         //estado = ler_umidade;
-        estado = controlar_temperatura;
+        estado = ler_temperatura;
         break;
 
 
@@ -160,7 +159,8 @@ int main (void) {
         if (temperatura_lida > 45)
         {
           PORTB |= (1 << PORT4);
-        }else {
+        }else if (temperatura_lida < 45)
+        {
           PORTB &= ~(1 << PORT4);
         }
         SREG  |=  (1  <<  SREG_GLOBAL_INT);
@@ -183,8 +183,8 @@ int main (void) {
 
         _delay_ms(ESPERA);
         //estado = enviar_temperatura;
-        estado = ler_temperatura;
-        //estado = ler_umidade;
+        //estado = ler_temperatura;
+        estado = controlar_umidade;
         break;
 
       case enviar_temperatura:
@@ -200,8 +200,8 @@ int main (void) {
         _delay_ms(ESPERA);
         //estado = ler_temperatura;
         //estado = ler_umidade;
-        //estado = controlar_temperatura;
-        estado = controlar_umidade;
+        estado = controlar_temperatura;
+        //estado = controlar_umidade;
         break;
 
       case receber_dados:
