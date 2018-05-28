@@ -130,7 +130,7 @@ int main (void) {
       case ler_umidade:
         SREG  &=  ~(1  <<  SREG_GLOBAL_INT);    //Disable  global  interrupts.
         valor_lido_u = adc_read(3);
-        umidade_lida = (valor_lido_u / 1023.0) * 100;
+        umidade_lida = 100 - ((valor_lido_u / 1023.0) * 100);
         itoa(umidade_lida, string_umidade , 10);
         SREG  |=  (1  <<  SREG_GLOBAL_INT);    //  Restore  the  global  interrupt  bit.
         _delay_ms(25);
@@ -155,10 +155,10 @@ int main (void) {
 
 
       case controlar_umidade:
-        SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
+        //SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
         Pulso_PWM(9, (umidade_lida));
         //Pulso_PWM(9,100 );
-        SREG  |=  (1  <<  SREG_GLOBAL_INT);
+        //SREG  |=  (1  <<  SREG_GLOBAL_INT);
         //estado = ler_umidade;
         estado = ler_temperatura;
         break;
