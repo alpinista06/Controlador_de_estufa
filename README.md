@@ -9,7 +9,7 @@ Tudo começou com o desejo de um jovem entusiasta das novas tecnologias de tomar
 
 Os arquivos estão divididos da seguinte maneira:
 * **Aplicativo**: Código para ser importado no [AppInvetor](http://appinventor.mit.edu/explore/).
-* **Firmware**: Códigos desenvolvidos para o microcontrolador **ATMEGA328P**.
+* **Firmware**: Códigos desenvolvidos para o microcontrolador [ATMEGA328P](https://www.microchip.com/wwwproducts/en/ATmega328P).
 * **Hardware**: Circuito eletrônico, diagramas de conexão e esquemas de montagem.
 * **resourses**: Images utilizadas neste README, referências, artigo, etc.
 
