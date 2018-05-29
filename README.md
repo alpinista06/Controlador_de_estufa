@@ -1,7 +1,7 @@
-# Controlador de estufa
-Projeto de um sistema de estufa automatizada para a disciplina de SEMB.
+# Estufa Automatizada
+Projeto de um sistema para uma estufa automatizada e controlada para a disciplina de Sistemas Embarcados na Universidade Federal de Uberlândia.
 
-## Neste repositório
+## Sobre o projeto
 
 Os arquivos estão divididos da seguinte maneira:
 * **Aplicativo**: Código para ser importado no AppInvetor.
@@ -11,23 +11,23 @@ Os arquivos estão divididos da seguinte maneira:
 
 ## Aplicativo
 
-O aplicativo foi desenvolvido no AppInvetor, abaixo uma imagem da sua interface:
+O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema. Abaixo uma imagem da sua interface:
 
 ![](Aplicativo/print_do_app.jpeg)
 
 ## Firmware
 
-O Firmware foi feito através da seguinte máquina de estados:
+O Firmware foi feito usando programação C em modo Bare Metal para o microcontrolador ATMEGA328P, que é usando na **arduino UNO R3**. O seu código pode ser resumindo através da seguinte máquina de estados:
 
 ![](Maquina_de_estados_Estufa_controlada.jpg)
 
 Para isso, o software foi separado em diversas partes:
-* **main_irrigador.ino**: Máquina de estados e código unindo todas as bibliotecas;
-* **leitura_analogica**: Biblioteca desenvolvida para configurar e realizar leituras do conversor AD do arduino.
-* **comunicacao_uart**: Códigos de comunicação serial, configurando, enviando e recebendo informações.
-* **library_pwm**: Biblioteca de controle do pwm do arduino.
-* **general_input_output**: Biblioteca de I/O.
-* **arduino_timers**: Controle dos timers internos do arduino.
+* **main_irrigador.ino**: Máquina de estados e código unindo todas as bibliotecas e demais funções;
+* **leitura_analogica**: Biblioteca desenvolvida para configurar e realizar leituras do conversor AD do microcontrolador.
+* **comunicacao_uart**: Biblioteca desenvolvida para realizar a comunicação serial do sistema, configurando os registradores do microcontrolador, enviando e recebendo informações da aplicação móvel.
+* **library_pwm**: Biblioteca de controle do *pwm* (Pulse Width Modulation) do microcontrolador.
+* **general_input_output**: Biblioteca de I/O(não utilizada nesta aplicação).
+* **arduino_timers**: Controle dos timers internos do arduino(não utilizada nesta aplicação).
 
 ## Licence
 
