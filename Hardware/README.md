@@ -2,7 +2,7 @@
 Diagramas e esquemas do Hardware do sistema.
 
 ## Circuito
-![](circuito_estufa.jpeg)
+![](circuito_estufa.jpg)
 
 ## Montagem
 Diagrama feito no fritzing.
