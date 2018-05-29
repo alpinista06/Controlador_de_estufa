@@ -3,10 +3,9 @@
 #include <util/delay.h>
 #include <stdbool.h>
 #include <avr/interrupt.h>
-
-#include "leitura_analogica.h"
-#include "comunicacao_uart.h"
-#include "library_PWM.h"
+#include <leitura_analogica.h>
+#include <comunicacao_uart.h>
+#include <library_PWM.h>
 
 
 //#define ENVIAR_COMO_PACOTE
@@ -162,7 +161,7 @@ int main (void) {
         //estado = ler_umidade;
         estado = ler_temperatura;
         break;
-        
+
       case ventilando:
       PORTB |= (1 << PORT4);
       _delay_ms(2000);
@@ -174,9 +173,9 @@ int main (void) {
       Pulso_PWM(9, 250);
       _delay_ms(2000);
       estado = ler_umidade;
-      
+
       break;
-      
+
 
       case controlar_temperatura:
         SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
