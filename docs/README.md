@@ -17,7 +17,7 @@ Os arquivos estão divididos da seguinte maneira:
 
 O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema, suas finalidades são mostrar, em tempo de execução, os valores de umidade e temperatura. Ainda podem enviar comandos ao sistema embarcado que toma ações predefinidas segundo o comando recebido. Abaixo uma imagem da sua interface:
 
-![](print_do_app.jpeg)
+![](print_do_app.jpg)
 
 ## Firmware
 
