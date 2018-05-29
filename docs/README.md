@@ -17,7 +17,7 @@ Os arquivos estão divididos da seguinte maneira:
 
 O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema. Abaixo uma imagem da sua interface:
 
-![](Aplicativo/print_do_app.jpeg)
+![](print_do_app.jpeg)
 
 ## Firmware
 
