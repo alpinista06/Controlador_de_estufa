@@ -3,11 +3,11 @@ Projeto de um sistema para uma estufa automatizada e controlada para a disciplin
 
 ## Descrição
 
-Tudo começou com o desejo de um jovem entusiasta das novas tecnologias de tomar um suco de abacaxi com hortelâ. Para o cultivo caseiro de hortelâs veio a tona a ideia de criar um estufa automatizada e controlada por uma aplicação móvel. Abaixo temos as informações sobre o projeto.  
+>Tudo começou com o desejo de um jovem entusiasta das novas tecnologias de tomar um suco de abacaxi com hortelâ. Para o cultivo caseiro de hortelâs veio a tona a ideia de criar um estufa automatizada e controlada por uma aplicação móvel. Abaixo temos as informações sobre o projeto.  
 
 ## Sobre o projeto
 
-Os arquivos estão divididos da seguinte maneira:
+>Os arquivos estão divididos da seguinte maneira:
 * **Aplicativo**: Código para ser importado no [AppInvetor](http://appinventor.mit.edu/explore/).
 * **Firmware**: Códigos desenvolvidos para o microcontrolador [ATMEGA328P](https://www.microchip.com/wwwproducts/en/ATmega328P).
 * **Hardware**: Circuito eletrônico, diagramas de conexão e esquemas de montagem.
@@ -15,17 +15,17 @@ Os arquivos estão divididos da seguinte maneira:
 
 ## Aplicativo
 
-O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema. Abaixo uma imagem da sua interface:
+>O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema. Abaixo uma imagem da sua interface:
 
 ![](Aplicativo/print_do_app.jpeg)
 
 ## Firmware
 
-O Firmware foi feito usando programação C em modo Bare Metal para o microcontrolador [ATMEGA328P](https://www.microchip.com/wwwproducts/en/ATmega328P), que é usando na [**arduino UNO R3**](https://www.arduino.cc/). O seu código pode ser resumindo através da seguinte máquina de estados:
+>O Firmware foi feito usando programação C em modo Bare Metal para o microcontrolador [ATMEGA328P](https://www.microchip.com/wwwproducts/en/ATmega328P), que é usando na [**arduino UNO R3**](https://www.arduino.cc/). O seu código pode ser resumindo através da seguinte máquina de estados:
 
 ![](Maquina_de_estados_Estufa_controlada.jpg)
 
-Para isso, o software foi separado em diversas partes:
+>Para isso, o software foi separado em diversas partes:
 * **main_irrigador.ino**: Máquina de estados e código unindo todas as bibliotecas e demais funções;
 * **leitura_analogica**: Biblioteca desenvolvida para configurar e realizar leituras do [conversor AD](https://pt.wikipedia.org/wiki/Conversor_anal%C3%B3gico-digital) do microcontrolador.
 * **comunicacao_uart**: Biblioteca desenvolvida para realizar a [comunicação serial](https://pt.wikipedia.org/wiki/Comunica%C3%A7%C3%A3o_serial) do sistema, configurando os registradores do microcontrolador, enviando e recebendo informações da aplicação móvel.
