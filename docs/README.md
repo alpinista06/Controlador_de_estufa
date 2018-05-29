@@ -3,7 +3,7 @@ Projeto de um sistema para uma estufa automatizada e controlada para a disciplin
 
 ## Descrição
 
-Tudo começou com o desejo de um jovem entusiasta das novas tecnologias de tomar um suco de abacaxi com hortelâ. Para o cultivo caseiro de hortelâs veio a tona a ideia de criar um estufa automatizada e controlada por uma aplicação móvel. Abaixo temos as informações sobre o projeto.  
+Tudo começou com o desejo de um jovem entusiasta das novas tecnologias de tomar um suco de abacaxi com hortelâ. Para o cultivo caseiro de hortelãs veio a tona a ideia de criar um estufa automatizada e controlada por uma aplicação móvel. Abaixo temos as informações sobre o projeto.  
 
 ## Sobre o projeto
 
@@ -15,7 +15,7 @@ Os arquivos estão divididos da seguinte maneira:
 
 ## Aplicativo
 
-O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema. Abaixo uma imagem da sua interface:
+O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema, suas finalidades são mostrar, em tempo de execução, os valores de umidade e temperatura. Ainda podem enviar comandos ao sistema embarcado que toma ações predefinidas segundo o comando recebido. Abaixo uma imagem da sua interface:
 
 ![](print_do_app.jpeg)
 
@@ -32,6 +32,8 @@ Para isso, o software foi separado em diversas partes:
 * **library_pwm**: Biblioteca de controle do *pwm* [Pulse Width Modulation](https://pt.wikipedia.org/wiki/Modula%C3%A7%C3%A3o_por_largura_de_pulso) do microcontrolador.
 * **general_input_output**: Biblioteca de I/O (não utilizada nesta aplicação).
 * **arduino_timers**: Controle dos timers internos do arduino (não utilizada nesta aplicação).
+
+A junção dessas partes cria o sistema de controle do ambiente da estufa.
 
 ## Licence
 
