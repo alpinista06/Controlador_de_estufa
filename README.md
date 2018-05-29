@@ -19,7 +19,7 @@ O aplicativo foi desenvolvido no AppInvetor, abaixo uma imagem da sua interface:
 
 O Firmware foi feito através da seguinte máquina de estados:
 
-![](resourses/state_machine_diagram.jpeg)
+![](Maquina_de_estados_Estufa_controlada.jpg)
 
 Para isso, o software foi separado em diversas partes:
 * **main_irrigador.ino**: Máquina de estados e código unindo todas as bibliotecas;
