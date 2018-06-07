@@ -43,12 +43,10 @@ typedef enum {
   @param u8_referencia_adc [Configura a tensão de referencia para a conversão, default referencia interna]
   @param u8_prescaler_adc [Configura o prescaler da conversão, default 128]
 */
-uint8_t configura_PWM(uint8_t u8_pino_PWM, pwm_prescaler prescaler_PWM);
-
+void init_PWM(uint8_t u8_pino_pwm);
 
 void debbuger_init_PWM();
 
-void init_PWM(uint8_t pino_pwm);
 
 /**
   [realizar_leitura analógica]

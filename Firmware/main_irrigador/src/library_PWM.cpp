@@ -16,13 +16,13 @@ void debbuger_init_PWM() {
   TCCR1B |= (1 << CS11);  // setando o  prescaler to 8(valor tabelado) e iniciando PWM
 }
 
-void debbuger_write_PWM(uint16_t VALOR) {
-  OCR1A = VALOR; // Este registrador controla o duty cycle do PWM do PB1(D9)
+void debbuger_write_PWM(uint16_t u16_VALOR) {
+  OCR1A = u16_VALOR; // Este registrador controla o duty cycle do PWM do PB1(D9)
 }
 
 //Inicio da biblioteca
-void init_PWM(uint8_t pino_pwm) {
-  switch (pino_pwm) {
+void init_PWM(uint8_t u8_pino_pwm) {
+  switch (u8_pino_pwm) {
     case 3:
       DDRD |= (1 << DDD3);
       TCCR2A |= (1 << COM2B1);
@@ -64,23 +64,23 @@ void init_PWM(uint8_t pino_pwm) {
 }
 
 
-void Pulso_PWM(uint8_t u8_pino_PWM, uint8_t Valor )
+void Pulso_PWM(uint8_t u8_pino_PWM, uint8_t u8_Valor )
 {
-  uint8_t duty = Valor;
+  uint8_t u8_duty = u8_Valor;
   switch (u8_pino_PWM) {
 
     case 3:
-      OCR2B = duty;
+      OCR2B = u8_duty;
     case 5:
-      OCR0B = duty;
+      OCR0B = u8_duty;
     case 6:
-      OCR0A = duty;
+      OCR0A = u8_duty;
     case 9:
-      OCR1A = duty;
+      OCR1A = u8_duty;
     case 10:
-      OCR1B = duty;
+      OCR1B = u8_duty;
     case 11:
-      OCR2A = duty;
+      OCR2A = u8_duty;
 
   }
 }
