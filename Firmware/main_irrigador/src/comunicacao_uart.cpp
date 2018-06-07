@@ -10,7 +10,7 @@ void uart_init(uint32_t baud) {
 }
 uint8_t uart_in_buffer()
 {
-  return (UCSR0A & (1 << RXC0)); //Retorna 1 quando tem, e 0 quando tem dados do buffer 
+  return (UCSR0A & (1 << RXC0)); //Retorna 1 quando tem, e 0 quando tem dados do buffer
 }
 
 uint8_t uart_read_byte() {
