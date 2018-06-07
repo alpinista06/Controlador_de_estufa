@@ -1,6 +1,7 @@
 /**
   UNIVERSIDADE FEDERAL DE UBERLÂNDIA - UFU
-  Autor: Mario Divino Borges Filho
+  Autores: Mario Divino Borges Filho
+          Thales Silva Rodrigues 
   Data: 21/04/2018
   Git: github.com/alpinista06
 
@@ -17,9 +18,6 @@
 #include <stdio.h>
 #include <util/delay.h>
 
-////////////
-//Defines //
-////////////
 
 //////////////////
 //Tipos de dados//
@@ -45,17 +43,16 @@ typedef enum {
 */
 void init_PWM(uint8_t u8_pino_pwm);
 
-void debbuger_init_PWM();
-
 
 /**
-  [realizar_leitura analógica]
-  @param   [sem parametros de entrada]
-  @return          [retorna o resultado da conversão AD]
+  [escrita analógica]
+  @param u8_pino_PWM [Seta o pino em que o pulso será escrito]
+  @param u8_Valor [Recee o valor que será controla o duty cycle do PWM]
+  @return          [Sem retorno]
 */
-void Pulso_PWM(uint8_t u8_pino_PWM, uint8_t Valor );
+void Pulso_PWM(uint8_t u8_pino_PWM, uint8_t u8_Valor );
 
-
+void debbuger_init_PWM();
 void debbuger_write_PWM(uint16_t VALOR);
 
 #endif /*_LEITURA_ANALOGICA_H_*/
