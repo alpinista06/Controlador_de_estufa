@@ -3,7 +3,7 @@ Projeto de um sistema para uma estufa automatizada e controlada para a disciplin
 
 ## Descrição
 
-Tudo começou com o desejo de um jovem entusiasta das novas tecnologias de tomar um suco de abacaxi com hortelâ. Para o cultivo caseiro de hortelâs veio a tona a ideia de criar um estufa automatizada e controlada por uma aplicação móvel. Abaixo temos as informações sobre o projeto.  
+Tudo começou com o desejo de um jovem entusiasta das novas tecnologias de tomar um suco de abacaxi com hortelã. Para o cultivo caseiro de hortelâs veio a tona a ideia de criar um estufa automatizada e controlada por uma aplicação móvel. Abaixo temos as informações sobre o projeto.  
 
 ## Sobre o projeto
 
@@ -36,14 +36,11 @@ Para isso, o software foi separado em diversas partes:
 ## Licence
 
 
-
-
-
 Se isso foi util de alguma forma, nos pague uma cerveja. Vlws.
 
 ## Autores
 
 * **Mário Borges** - github.com/alpinista06
-* **Talles Rodrigues**
+* **Thales Rodrigues**
 
 Colaborador: Ítalo Fernandes - github.com/italogfernandes
