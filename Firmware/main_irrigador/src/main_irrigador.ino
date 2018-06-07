@@ -143,8 +143,6 @@ int main (void) {
       case enviar_umidade:
 
       SREG  &=  ~(1  <<  SREG_GLOBAL_INT);
-      //umidade_lida = (valor_lido_u / 1023.0) * 100.0;
-      //itoa(umidade_lida, string_umidade, 10);
       uart_send_byte(UART_PACKET_START);
       uart_send_byte(UART_PACKET_UMID);
       uart_send_bytes(string_umidade, 2);
