@@ -33,6 +33,10 @@ Para isso, o software foi separado em diversas partes:
 * **general_input_output**: Biblioteca de I/O (não utilizada nesta aplicação).
 * **arduino_timers**: Controle dos timers internos do arduino (não utilizada nesta aplicação).
 
+Abaixo uma imagem do protótipo.
+
+![](estufa.jpg)
+
 ## Licence
 
 
