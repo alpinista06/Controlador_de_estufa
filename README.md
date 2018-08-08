@@ -19,6 +19,10 @@ O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do 
 
 ![](Aplicativo/print_do_app.jpeg)
 
+Está em *fase de desenvolvimento* um aplicativo para desktop desenvolvido em python com PyQt , abaixo uma prévia da interface:
+
+![](estufa_pc.png)
+
 ## Firmware
 
 O Firmware foi feito usando programação C em modo Bare Metal para o microcontrolador [ATMEGA328P](https://www.microchip.com/wwwproducts/en/ATmega328P), que é usando na [**arduino UNO R3**](https://www.arduino.cc/). O seu código pode ser resumindo através da seguinte máquina de estados:
