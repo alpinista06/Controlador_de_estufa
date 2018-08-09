@@ -22,7 +22,7 @@ O aplicativo móvel foi desenvolvido no AppInvetor e faz a interface Homem-Máqu
 Em conjunto um aplicativo para desktop foi desenvolvido em python com PyQt , a interface tem as mesmas funcionalidades do apk móvel
 podendo enviar e receber informações da porta serial. Abaixo uma imagem do aplicativo para desktop:
 
-![](estufa_pc.png)
+![](estufa_pc.jpg)
 
 ## Firmware
 
