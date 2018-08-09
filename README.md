@@ -15,11 +15,12 @@ Os arquivos estão divididos da seguinte maneira:
 
 ## Aplicativo
 
-O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema. Abaixo uma imagem da sua interface:
+O aplicativo móvel foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema. Abaixo uma imagem da sua interface:
 
 ![](Aplicativo/print_do_app.jpeg)
 
-Está em *fase de desenvolvimento* um aplicativo para desktop desenvolvido em python com PyQt , abaixo uma prévia da interface:
+Em conjunto um aplicativo para desktop foi desenvolvido em python com PyQt , a interface tem as mesmas funcionalidades do apk móvel
+podendo enviar e receber informações da porta serial. Abaixo uma imagem do aplicativo para desktop:
 
 ![](estufa_pc.png)
 
