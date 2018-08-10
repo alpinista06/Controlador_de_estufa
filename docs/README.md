@@ -3,7 +3,7 @@ Projeto de um sistema para uma estufa automatizada e controlada para a disciplin
 
 ## Descrição
 
-Tudo começou com o desejo de um jovem entusiasta das novas tecnologias de tomar um suco de abacaxi com hortelâ. Para o cultivo caseiro de hortelãs veio a tona a ideia de criar um estufa automatizada e controlada por uma aplicação móvel. Abaixo temos as informações sobre o projeto.  
+Tudo começou com o desejo de um jovem entusiasta das novas tecnologias de tomar um suco de abacaxi com hortelã. Para o cultivo caseiro de hortelâs veio a tona a ideia de criar um estufa automatizada e controlada por uma aplicação móvel. Abaixo temos as informações sobre o projeto.  
 
 ## Sobre o projeto
 
@@ -15,9 +15,14 @@ Os arquivos estão divididos da seguinte maneira:
 
 ## Aplicativo
 
-O aplicativo foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema, suas finalidades são mostrar, em tempo de execução, os valores de umidade e temperatura. Ainda podem enviar comandos ao sistema embarcado que toma ações predefinidas segundo o comando recebido. Abaixo uma imagem da sua interface:
+O aplicativo móvel foi desenvolvido no AppInvetor e faz a interface Homem-Máquina do sistema. Abaixo uma imagem da sua interface:
 
 ![](print_do_app.jpg)
+
+Em conjunto um aplicativo para desktop foi desenvolvido em python com PyQt , a interface tem as mesmas funcionalidades do apk móvel
+podendo enviar e receber informações da porta serial. Abaixo uma imagem do aplicativo para desktop:
+
+![](estufa_pc.jpg)
 
 ## Firmware
 
@@ -33,19 +38,20 @@ Para isso, o software foi separado em diversas partes:
 * **general_input_output**: Biblioteca de I/O (não utilizada nesta aplicação).
 * **arduino_timers**: Controle dos timers internos do arduino (não utilizada nesta aplicação).
 
-A junção dessas partes cria o sistema de controle do ambiente da estufa.
+Abaixo uma imagem do protótipo.
+
+![](estufa.jpg)
 
 ## Licence
 
 
-
-
-
-Se isso foi util de alguma forma, nos pague uma cerveja. Vlws.
+Se isso foi util de alguma forma, nos pague varias cerveja. Vlws.
 
 ## Autores
 
 * **Mário Borges** - github.com/alpinista06
-* **Talles Rodrigues**
+* **Thales Rodrigues**
+
+Colaborador: Ítalo Fernandes - github.com/italogfernandes
 
 Colaborador: Ítalo Fernandes - github.com/italogfernandes
