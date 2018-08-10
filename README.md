@@ -45,7 +45,7 @@ Abaixo uma imagem do protótipo.
 ## Licence
 
 
-Se isso foi util de alguma forma, nos pague uma cerveja. Vlws.
+Se isso foi util de alguma forma, nos pague varias cerveja. Vlws.
 
 ## Autores
 
